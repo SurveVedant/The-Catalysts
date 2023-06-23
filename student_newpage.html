@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Website with Sidebar</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .sidebar {
+      width: 200px;
+      height: 100vh;
+      background-color: #f2f2f2;
+      float: left;
+    }
+
+    .sidebar ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .sidebar li {
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .content {
+      margin-left: 200px;
+      padding: 20px;
+    }
+
+    .content h2 {
+      margin-top: 0;
+    }
+
+    .form-container {
+      width: 400px;
+      margin: 0 auto;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+    }
+
+    .form-group select,
+    .form-group input[type="date"],
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .form-group input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+
+    .user-info-container {
+      width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .user-info {
+      background-color: #f2f2f2;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .user-info h2 {
+      margin-top: 0;
+    }
+
+    .user-info p {
+      margin: 0 0 10px;
+    }
+
+    .user-info label {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <ul>
+      <li onclick="displayPage('leave')">Leave</li>
+      <li onclick="displayPage('complaint')">Complaint</li>
+      <li onclick="displayPage('room-details')">Room Details</li>
+      <li onclick="displayPage('courses')">Courses</li>
+      <li onclick="displayPage('mess')">Mess</li>
+      <li onclick="displayPage('events')">Events</li>
+    </ul>
+  </div>
+  <div class="content">
+    <h2>Welcome to the Website!</h2>
+    <p>Select a page from the sidebar to display its content here.</p>
+  </div>
+
+  <div id="userDetailsContainer" class="user-info-container">
+    <!-- User Information will be dynamically added here -->
+  </div>
+
+  <script>
+    var registeredCourses = [];
+
+    function registerCourse(courseName) {
+      if (!registeredCourses.includes(courseName)) {
+        registeredCourses.push(courseName);
+        updateRegisteredCoursesText();
+        alert('Course ' + courseName + ' registered successfully!');
+      } else {
+        alert('Course ' + courseName + ' is already registered.');
+      }
+    }
+
+    function changeMess() {
+      var messTypeSelect = document.getElementById('messType');
+      var selectedMessType = messTypeSelect.value;
+
+      // Update the mess details
+      var messDetails = document.querySelector('.mess-details p');
+      messDetails.textContent = 'Mess Type: ' + selectedMessType;
+    }
+   
+    var registeredEvents = [];
+
+    function registerEvent(eventId) {
+      var event = document.getElementById(eventId);
+      var eventName = event.querySelector('.event-title').textContent;  
+
+      if (registeredEvents.includes(eventName)) {
+        alert('You have already registered for this event.');
+      } else {
+        registeredEvents.push(eventName);
+        var registeredEventsList = document.getElementById('registeredEventsList');
+        var listItem = document.createElement('li');
+        listItem.textContent = eventName;
+        registeredEventsList.appendChild(listItem);
+      }
+    }
+
+    function updateRegisteredCoursesText() {
+      var registeredCoursesText = document.getElementById('registeredCoursesText');
+      registeredCoursesText.textContent = registeredCourses.join(', ');
+    }
+
+    function displayPage(page) {
+      var contentDiv = document.querySelector('.content');
+      var userDetailsContainer = document.getElementById('userDetailsContainer');
+
+      // Clear the existing content
+      contentDiv.innerHTML = '';
+
+      // Remove the user information container
+      userDetailsContainer.innerHTML = '';
+
+      // Display the selected page's content
+      if (page === 'leave') {
+        contentDiv.innerHTML = `
+          <h2>Leave</h2>
+          <p>This is the Leave page.</p>
+          <div class="form-container">
+            <h2>Leave Form</h2>
+            <form id="leaveForm">
+              <div class="form-group">
+                <label for="leaveType">Leave Type:</label>
+                <select id="leaveType">
+                  <option value="outing">Outing</option>
+                  <option value="homeTown">Home Town</option>
+                  <option value="emergency">Emergency Leave</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="leaveDate">Leave Date:</label>
+                <input type="date" id="leaveDate" required>
+              </div>
+              <div class="form-group">
+                <label for="leaveTime">Leave Time:</label>
+                <input type="time" id="leaveTime" required>
+              </div>
+              <div class="form-group">
+                <label for="leaveDuration">Leave Duration (hours):</label>
+                <input type="number" id="leaveDuration" min="1" max="24" required>
+              </div>
+              <div class="form-group">
+                <input type="submit" value="Submit Leave">
+              </div>
+            </form>
+          </div>
+        `;
+      } else if (page === 'complaint') {
+        contentDiv.innerHTML = `
+          <h2>Complaint</h2>
+          <p>This is the Complaint page.</p>
+          <div class="form-container">
+            <h2>Complaint Form</h2>
+            <form id="complaintForm">
+              <div class="form-group">
+                <label for="complaintType">Complaint Type:</label>
+                <select id="complaintType">
+                  <option value="wifi">Wifi</option>
+                  <option value="electrical">Electrical</option>
+                  <option value="carpentry">Carpentry</option>
+                  <option value="cleaning">Cleaning</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="complaintDate">Complaint Date:</label>
+                <input type="date" id="complaintDate" required>
+              </div>
+              <div class="form-group">
+                <label for="complaintDescription">Complaint Description:</label>
+                <textarea id="complaintDescription" rows="4" required></textarea>
+              </div>
+              <div class="form-group">
+                <label for="complaintSeverity">Complaint Severity:</label>
+                <select id="complaintSeverity">
+                  <option value="high">High</option>
+                  <option value="moderate">Moderate</option>
+                  <option value="low">Low</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <input type="submit" value="Submit Complaint">
+              </div>
+            </form>
+          </div>
+        `;
+
+        document.getElementById('complaintForm').addEventListener('submit', function(event) {
+          event.preventDefault();
+          alert('Complaint Submitted');
+        });
+      } else if (page === 'room-details') {
+        userDetailsContainer.innerHTML = `
+        <div class="user-info">
+            <h2>User Information</h2>
+            <p><label>ID:</label> 4</p>
+            <p><label>Name:</label> John Wick</p>
+            <p><label>Registration Number:</label> 21BCE6969</p>
+            <p><label>Block:</label> A</p>
+            <p><label>Room Number:</label> 101</p>
+          </div>
+        `;
+      } else if (page === 'courses') {
+        contentDiv.innerHTML = `
+          <h2>Courses</h2>
+          <p>This is the Courses page.</p>
+          <div class="form-container">
+            <h2>Course Registration</h2>
+            <ul class="course-list">
+              <li class="course-item">
+                <h3>Course 1: DAA</h3>
+                <p>Course Code: BCSE204L</p>
+                <p>Course Type: Theory</p>
+                <p>Course Credits: 4</p>
+                <button class="register-button" onclick="registerCourse('DAA')">Register</button>
+              </li>
+              <li class="course-item">
+                <h3>Course 2: DBMS</h3>
+                <p>Course Code: BCSE304L</p>
+                <p>Course Type: Theory</p>
+                <p>Course Credits: 4</p>
+                <button class="register-button" onclick="registerCourse('DBMS')">Register</button>
+              </li>
+              <li class="course-item">
+                <h3>Course 3: DSA</h3>
+                <p>Course Code: BCSE202L</p>
+                <p>Course Type: Theory</p>
+                <p>Course Credits: 4</p>
+                <button class="register-button" onclick="registerCourse('DSA')">Register</button>
+              </li>
+              <li class="course-item">
+                <h3>Course 4: TOC</h3>
+                <p>Course Code: BCSE202L</p>
+                <p>Course Type: Theory</p>
+                <p>Course Credits: 4</p>
+                <button class="register-button" onclick="registerCourse('TOC')">Register</button>
+              </li>
+              <li class="course-item">
+                <h3>Course 5: CAO</h3>
+                <p>Course Code: BCSE213L</p>
+                <p>Course Type: Theory</p>
+                <p>Course Credits: 4</p>
+                <button class="register-button" onclick="registerCourse('CAO')">Register</button>
+              </li>
+              <li class="course-item">
+                <h3>Course 6: DAA</h3>
+                <p>Course Code: BCSE213P</p>
+                <p>Course Type: Lab</p>
+                <p>Course Credits: 1</p>
+                <button class="register-button" onclick="registerCourse('DAA')">Register</button>
+              </li>
+              <li class="course-item">
+                <h3>Course 7: DSA</h3>
+                <p>Course Code: BCSE202P</p>
+                <p>Course Type: Lab</p>
+                <p>Course Credits: 1</p>
+                <button class="register-button" onclick="registerCourse('DSA')">Register</button>
+              </li>
+              <li class="course-item">
+                <h3>Course 8: DBMS</h3>
+                <p>Course Code: BCSE304P</p>
+                <p>Course Type: Lab</p>
+                <p>Course Credits: 1</p>
+                <button class="register-button" onclick="registerCourse('DBMS')">Register</button>
+              </li>
+            </ul>
+            <p id="registeredCoursesText">Registered Courses: </p>
+          </div>
+        `;
+      } else if (page === 'mess') {
+        contentDiv.innerHTML = `
+          <h2>Mess</h2>
+          <p>This is the Mess page.</p>
+          <div class="mess-details">
+    <h2>Mess Details</h2>
+    <p>Mess Type: Non Veg</p>
+  </div>
+
+  <div class="change-mess-container">
+    <label for="messType">Change Mess:</label>
+    <select id="messType">
+      <option value="veg">Veg</option>
+      <option value="nonVeg" selected>Non Veg</option>
+      <option value="special">Special</option>
+    </select>
+    <button onclick="changeMess()">Change</button>
+  </div>
+        `;
+
+      } else if (page === 'events') {
+        contentDiv.innerHTML = `
+          <h2>Events</h2>
+          <p>This is the Events page.</p>
+          <div class="event-container">
+    <div class="event" id="event1">
+      <h2 class="event-title">Music Concert</h2>
+      <p class="event-description">Join us for a thrilling night of live music performances by renowned artists.</p>
+      <p><strong>Date:</strong> September 15, 2023</p>
+      <p><strong>Time:</strong> 7:00 PM onwards</p>
+      <p><strong>Venue:</strong> City Stadium</p>
+      <p><strong>Organiser:</strong> Music Society</p>
+      <p><strong>Participant Count:</strong> 500</p>
+      <p><strong>Hosted By:</strong> XYZ Productions</p>
+      <button class="event-registration" onclick="registerEvent('event1')">Register</button>
+    </div>
+    <div class="event" id="event2">
+      <h2 class="event-title">Tech Hackathon</h2>
+      <p class="event-description">A 24-hour coding challenge for tech enthusiasts to develop innovative solutions.</p>
+      <p><strong>Date:</strong> November 5-6, 2023</p>
+      <p><strong>Time:</strong> 10:00 AM to 10:00 AM</p>
+      <p><strong>Venue:</strong> Innovation Hub</p>
+      <p><strong>Organiser:</strong> Tech Club</p>
+      <p><strong>Participant Count:</strong> 100</p>
+      <p><strong>Hosted By:</strong> ABC Tech Solutions</p>
+      <button class="event-registration" onclick="registerEvent('event2')">Register</button>
+    </div>
+    <div class="event" id="event3">
+      <h2 class="event-title">Art Exhibition</h2>
+      <p class="event-description">Explore a diverse collection of artworks showcasing various art forms and styles.</p>
+      <p><strong>Date:</strong> October 20-25, 2023</p>
+      <p><strong>Time:</strong> 9:00 AM to 6:00 PM</p>
+      <p><strong>Venue:</strong> Gallery Space</p>
+      <p><strong>Organiser:</strong> Art Society</p>
+      <p><strong>Participant Count:</strong> 200</p>
+      <p><strong>Hosted By:</strong> Art Alliance</p>
+      <button class="event-registration" onclick="registerEvent('event3')">Register</button>
+    </div>
+    <div class="event" id="event4">
+      <h2 class="event-title">Sports Tournament</h2>
+      <p class="event-description">Engage in thrilling sports competitions, including football, basketball, and volleyball.</p>
+      <p><strong>Date:</strong> July 10-15, 2023</p>
+      <p><strong>Time:</strong> Varies based on the sport</p>
+      <p><strong>Venue:</strong> Sports Complex</p>
+      <p><strong>Organiser:</strong> Sports Club</p>
+      <p><strong>Participant Count:</strong> 300</p>
+      <p><strong>Hosted By:</strong> Sports Federation</p>
+      <button class="event-registration" onclick="registerEvent('event4')">Register</button>
+    </div>
+    <div class="event" id="event5">
+      <h2 class="event-title">Leadership Summit</h2>
+      <p class="event-description">Gain insights from influential leaders through engaging talks and panel discussions.</p>
+      <p><strong>Date:</strong> December 1, 2023</p>
+      <p><strong>Time:</strong> 9:00 AM to 5:00 PM</p>
+      <p><strong>Venue:</strong> Conference Hall</p>
+      <p><strong>Organiser:</strong> Leadership Society</p>
+      <p><strong>Participant Count:</strong> 150</p>
+      <p><strong>Hosted By:</strong> Leadership Institute</p>
+      <button class="event-registration" onclick="registerEvent('event5')">Register</button>
+    </div>
+  </div>
+
+  <div class="registered-events" id="registeredEvents">
+    <h3>Registered Events:</h3>
+    <ul id="registeredEventsList"></ul>
+  </div>
+        `;
+        };
+      }
+  </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FACULTY LOGIN PAGE</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #444444;
+      background-color: #1f1f1f;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .container h2 {
+      text-align: center;
+      padding: 10px;
+      margin: 0;
+    }
+
+    .container input[type="text"],
+    .container input[type="password"] {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 3px;
+      background-color: #ffffff;
+      color: #000000;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .container input[type="submit"] {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background-color: #4caf50;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .container input[type="submit"]:hover {
+      background-color: #008080;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>FACULTY LOGIN</h2>
+    <form id="loginForm">
+      <input type="text" placeholder="Username" id="usernameInput" required>
+      <input type="password" placeholder="Password" id="passwordInput" required>
+      <input type="submit" value="Login">
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const username = document.getElementById('usernameInput').value;
+      const password = document.getElementById('passwordInput').value;
+
+      const usernamePattern = /^\d{5}$/;
+
+      if (!usernamePattern.test(username)) {
+        alert('Invalid username format');
+        return;
+      }
+      if (password === 'password') {
+        window.location.href = 'student_newpage.html';
+      } else {
+        alert('Invalid username or password');
+      }
+    
+    });
+  </script>
+</body>
+</html>
+

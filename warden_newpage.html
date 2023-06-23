@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Warden Details Page</Details></title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    
+    .sidebar {
+      width: 200px;
+      height: 100vh;
+      background-color: #dabb1e;
+      opacity: 10;
+      float: left;
+    }
+
+    .sidebar ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .sidebar li {
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .content {
+      margin-left: 200px;
+      padding: 20px;
+    }
+
+    .content h2 {
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <ul>
+      <li onclick="displayPage('leave')">Leave Request Approval</li>
+      <li onclick="displayPage('complaint')">Complaint Request Approval</li>
+      <li onclick="displayPage('complaint')">Mess Details</li>
+      <li onclick="displayPage('room-details')">Room Details</li>
+ 
+    </ul>
+  </div>
+  <div class="content">
+    <h2>Welcome to the Website!</h2>
+    <p>Select a page from the sidebar to display its content here.</p>
+  </div>
+
+  <script>
+    function displayPage(page) {
+      var contentDiv = document.querySelector('.content');
+
+      // Clear the existing content
+      contentDiv.innerHTML = '';
+
+      // Display the selected page's content
+      if (page === 'leave') {
+        contentDiv.innerHTML = '<h2>Leave</h2><p>This is the Leave page.</p>';
+      } else if (page === 'complaint') {
+        contentDiv.innerHTML = '<h2>Complaint</h2><p>This is the Complaint page.</p>';
+      } else if (page === 'room-details') {
+        contentDiv.innerHTML = '<h2>Room Details</h2><p>This is the Room Details page.</p>';
+      } else if (page === 'courses') {
+        contentDiv.innerHTML = '<h2>Courses</h2><p>This is the Mess Details page.</p>';
+      } 
+    }
+  </script>
+</body>
+</html>
